@@ -101,7 +101,7 @@ function handleSlackMessage(payload) {
 
 	var ID;
 	if (split[0].indexOf(':' > -1)) {
-		ID = split[0].substring(0, 9);
+		ID = split[0].substring(0, 8);
 	}
 	else {
 		ID = split[0];
