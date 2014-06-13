@@ -17,17 +17,16 @@ module.exports = {
 		console.log("posting mqtt to slack");
 
 		var body = JSON.stringify({
-			text: payload.text,
-			username: payload.ID
-		})
-		console.log(body);
+			text: payload.ID + ': ' + payload.text,
+			username: 'Chat Boterick'
+		});
 
 		var options = {
 			host: config.slack.host,
 			path: '/services/hooks/incoming-webhook?token=' + config.slack.incomingToken,
 			port: 443,
 			method: 'POST'
-		}
+		};
 
 		var req = https.request(options, function(res) {
 			res.setEncoding('utf8');
@@ -96,16 +95,20 @@ server.route({
 });
 
 function handleSlackMessage(payload) {
-	// 1. grab the hash ID
-	// 2. compose the message JSON
-	// 3. publish on domain/chat/ID
-
-	//grab the message text without the trigger
 	var triggerless = payload.text.slice(payload.trigger_word.length);
-	//split the hash ID and rest of the message
-	var split = triggerless.split(' ', 2);
-	var message = split[1];
-	var ID = split[0]
+
+	var split = triggerless.split(' ');
+
+	var ID;
+	if (words[0].indexOf(':' > -1)) {
+		ID = words[0].substring(0, 9);
+	}
+	else {
+		ID = words[0];
+	}
+	words = words.slice(1);
+	var message = words.join(' ');
+
 	console.log(message + ' and then ' + ID);
 
 	var messagejson = JSON.stringify({
