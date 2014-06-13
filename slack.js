@@ -68,7 +68,7 @@ module.exports = {
 	}
 };
 
-var server = new hapi.Server('0.0.0.0', config.port, {
+var server = new hapi.Server('0.0.0.0', config.slack.port, {
 	location: config.slack.domain
 });
 
