@@ -100,14 +100,14 @@ function handleSlackMessage(payload) {
 	var split = triggerless.split(' ');
 
 	var ID;
-	if (words[0].indexOf(':' > -1)) {
-		ID = words[0].substring(0, 9);
+	if (split[0].indexOf(':' > -1)) {
+		ID = split[0].substring(0, 9);
 	}
 	else {
-		ID = words[0];
+		ID = split[0];
 	}
-	words = words.slice(1);
-	var message = words.join(' ');
+	split = split.slice(1);
+	var message = split.join(' ');
 
 	console.log(message + ' and then ' + ID);
 
