@@ -103,7 +103,7 @@ function handleSlackMessage(payload) {
 	//grab the message text without the trigger
 	var triggerless = payload.text.slice(payload.trigger_word.length);
 	//split the hash ID and rest of the message
-	var split = triggerless.split(' ', 1);
+	var split = triggerless.split(' ', 2);
 	var message = split[1];
 	var ID = split[0]
 	console.log(message + ' and then ' + ID);
