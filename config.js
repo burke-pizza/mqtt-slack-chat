@@ -15,7 +15,7 @@ module.exports = {
 	slack: {
 		domain: 'localhost',
 		port: Number(process.env.PORT || 5000),
-		host: '2lemetry.slack.com',
+		host: 'mqtt-slack.herokuapp.com',
 		incomingToken: 'slVNeAu8bRa4wMWrow1dCZqW',
 		outgoingToken: 'OMGFkQjInzjYau773VZyb8Pd'
 	}
