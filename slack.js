@@ -108,5 +108,13 @@ function handleSlackMessage(payload) {
 	var ID = split[0]
 	console.log(message + ' and then ' + ID);
 
+	var messagejson = JSON.stringify({
+		text: message,
+		ID: ID,
+		sender: '2lemetry'
+	});
+
+	mqttClient.publish(config.mqtt.topic+'/'+ID, messagejson);
+
 
 }

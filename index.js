@@ -7,13 +7,14 @@ var slack = require('./slack');
 var client;
 
 client = mqtt.createClient(config.mqtt.port, config.mqtt.host, config.mqtt.options);
-client.subscribe(config.mqtt.topic+'/#');
+client.subscribe(config.mqtt.topic+'/#', function(e, g) {
+	slack.startServer(client);
+});
 
 client.on('message', function(topic, message) {
 	handleMessage(message);
 });	
 
-slack.startServer(client);
 
 function handleMessage(message) {
 	console.log(message);
