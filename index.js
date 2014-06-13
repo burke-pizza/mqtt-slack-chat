@@ -20,6 +20,6 @@ function handleMessage(message) {
 	var mjson = JSON.parse(message);
 	//if mqtt message is from a user, send it to slack
 	if (mjson.sender == 'user') {
-		slack.postToSlack();
+		slack.postToSlack(mjson);
 	}
 }
