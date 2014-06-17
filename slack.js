@@ -58,7 +58,7 @@ module.exports = {
 			});
 
 			res.on('end', function() {
-				var obj = JSON.parse(response)
+				var obj = JSON.parse(response);
 				return obj;
 			});
 		});
@@ -95,10 +95,9 @@ server.route({
 });
 
 function handleSlackMessage(payload) {
+	//take out the trigger word, split up the message, extract the ID
 	var triggerless = payload.text.slice(payload.trigger_word.length);
-
 	var split = triggerless.split(' ');
-
 	var ID;
 	if (split[0].indexOf(':' > -1)) {
 		ID = split[0].substring(0, 8);
