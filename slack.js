@@ -91,7 +91,7 @@ server.route({
 	method: 'POST',
 	handler: function(req, reply) {
 		console.log("POST request received");
-		reply("okay").code(200).header('Access-Control-Allow-Origin: *');
+		reply("okay").code(200);
 	}
 });
 
