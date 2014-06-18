@@ -19,10 +19,9 @@ client.on('message', function(topic, message) {
 function handleMessage(message) {
 	console.log(message);
 	var mjson = JSON.parse(message);
-	console.log(new Date().getHours());
-	//if mqtt message is from a user, send it to slack
-	if (mjson.sender == 'user') {
-		slack.postToSlack(mjson);
-	}
+		//if mqtt message is from a user, send it to slack
+		if (mjson.sender == 'user') {
+			slack.postToSlack(mjson);
+		}
 
 }

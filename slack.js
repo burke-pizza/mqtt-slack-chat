@@ -86,6 +86,18 @@ server.route({
 });
 
 server.route({
+	path: '/email',
+	method: 'POST',
+	handler: function(req, reply) {
+		console.log("POST request received");
+		reply("okay").code(200).header('Access-Control-Allow-Origin: *');
+		else {
+			console.log("invalid token");
+		}
+	}
+});
+
+server.route({
 	path: '/',
 	method: 'GET',
 	handler: function(req, reply) {
