@@ -91,6 +91,7 @@ server.route({
 	method: 'POST',
 	handler: function(req, reply) {
 		console.log("POST request received");
+		console.log(req.payload);
 		reply("okay").code(200);
 	}
 });
