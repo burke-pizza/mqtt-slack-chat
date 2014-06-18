@@ -68,7 +68,8 @@ module.exports = {
 };
 
 var server = new hapi.Server('0.0.0.0', config.slack.port, {
-	location: config.slack.domain
+	location: config.slack.domain,
+	cors: true
 });
 
 server.route({
