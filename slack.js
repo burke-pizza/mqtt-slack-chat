@@ -110,7 +110,8 @@ function createZendeskTicket(payload) {
 		ticket: {
 			requester: {
 				name: info.name,
-				email: info.email,
+				email: info.email
+			},
 				subject: info.subject,
 				comment: {
 					body: info.message
