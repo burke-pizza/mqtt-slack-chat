@@ -105,7 +105,7 @@ function handleSlackMessage(payload) {
 }
 
 function createZendeskTicket(payload) {
-	var info = JSON.parse(payload);
+	var info = payload;
 	var body = JSON.stringify({
 		ticket: {
 			requester: {
