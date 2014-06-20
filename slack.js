@@ -118,7 +118,7 @@ function createZendeskTicket(payload) {
 			}
 		}
 	});
-	var auth = new Buffer('support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld').toString('base64'));
+	var auth = new Buffer('support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld').toString('base64');
 	var options = {
 		host: '2lemetry.zendesk.com',
 		port: 443,
