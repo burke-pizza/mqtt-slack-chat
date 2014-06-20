@@ -64,6 +64,7 @@ server.route({
 	method: 'POST',
 	handler: function(req, reply) {
 		console.log("/email POST request received");
+		console.log(req.payload);
 		createZendeskTicket(req.payload);
 		reply("okay").code(200);
 	}
