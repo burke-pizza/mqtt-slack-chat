@@ -125,7 +125,7 @@ function createZendeskTicket(payload) {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': 'support_agents@2lemetry.com:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld'
+			'Authorization': 'support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld'
 		}
 	};
 
