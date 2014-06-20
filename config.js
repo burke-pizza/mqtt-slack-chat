@@ -18,5 +18,6 @@ module.exports = {
 		host: '2lemetry.slack.com',
 		incomingToken: 'slVNeAu8bRa4wMWrow1dCZqW',
 		outgoingToken: 'OMGFkQjInzjYau773VZyb8Pd'
-	}
+	},
+	activeUserLimit: 2
 };

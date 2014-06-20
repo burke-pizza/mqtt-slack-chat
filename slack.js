@@ -37,33 +37,6 @@ module.exports = {
 
 		req.write(body);
 		req.end();
-	},
-
-	getSlackNames: function() {
-		var options = {
-			host: 'slack.com',
-			port: 443,
-			path: '/api/users.list?token=xoxp-2304282579-2318358302-2391209578-696a68',
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		};
-
-		var req = https.request(options, function(res) {
-			res.setEncoding('utf8');
-			var response;
-			res.on('data', function(chunk) {
-				response += chunk;
-			});
-
-			res.on('end', function() {
-				var obj = JSON.parse(response);
-				return obj;
-			});
-		});
-
-		req.end();
 	}
 };
 
@@ -76,7 +49,7 @@ server.route({
 	path: '/',
 	method: 'POST',
 	handler: function(req, reply) {
-		console.log("POST request received");
+		console.log("/ POST request received");
 		if (req.payload.token == config.slack.outgoingToken) {
 			handleSlackMessage(req.payload);
 		}
@@ -90,8 +63,8 @@ server.route({
 	path: '/email',
 	method: 'POST',
 	handler: function(req, reply) {
-		console.log("POST request received");
-		console.log(req.payload);
+		console.log("/email POST request received");
+		createZendeskTicket(req.payload);
 		reply("okay").code(200);
 	}
 });
@@ -100,7 +73,7 @@ server.route({
 	path: '/',
 	method: 'GET',
 	handler: function(req, reply) {
-		console.log("GET request received");
+		console.log("/ GET request received");
 		reply('Are you lost?');
 	}
 });
@@ -128,6 +101,68 @@ function handleSlackMessage(payload) {
 	});
 
 	mqttClient.publish(config.mqtt.topic+'/'+ID, messagejson);
+}
 
+function createZendeskTicket(payload) {
+	var info = JSON.parse(payload);
+	var body = JSON.stringify({
+		ticket: {
+			requester: {
+				name: info.name,
+				email: info.email,
+				subject: info.subject,
+				comment: {
+					body: info.message
+				}
+			}
+		}
+	});
+	var options = {
+		host: '2lemetry.zendesk.com',
+		port: 443,
+		path: '/api/v2/tickets.json',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'support_agents@2lemetry.com:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld'
+		}
+	};
 
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function(data) {
+			console.log(data);
+		});
+	});
+
+	req.write(body);
+	req.end();
+
+}
+
+function getSlackNames() {
+	var options = {
+		host: 'slack.com',
+		port: 443,
+		path: '/api/users.list?token=xoxp-2304282579-2318358302-2391209578-696a68',
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	};
+
+	var req = https.request(options, function(res) {
+		res.setEncoding('utf8');
+		var response;
+		res.on('data', function(chunk) {
+			response += chunk;
+		});
+
+		res.on('end', function() {
+			var obj = JSON.parse(response);
+			return obj;
+		});
+	});
+
+	req.end();
 }
