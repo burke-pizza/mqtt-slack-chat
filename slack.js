@@ -112,13 +112,13 @@ function createZendeskTicket(payload) {
 				name: info.name,
 				email: info.email
 			},
-				subject: info.subject,
-				comment: {
-					body: info.message
-				}
+			subject: info.subject,
+			comment: {
+				body: info.message
 			}
 		}
 	});
+	
 	var auth = new Buffer('support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld').toString('base64');
 	var options = {
 		host: '2lemetry.zendesk.com',
