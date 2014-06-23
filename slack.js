@@ -118,7 +118,7 @@ function createZendeskTicket(payload) {
 			}
 		}
 	});
-	
+
 	var auth = new Buffer('support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld').toString('base64');
 	var options = {
 		host: '2lemetry.zendesk.com',
@@ -141,31 +141,4 @@ function createZendeskTicket(payload) {
 	req.write(body);
 	req.end();
 
-}
-
-function getSlackNames() {
-	var options = {
-		host: 'slack.com',
-		port: 443,
-		path: '/api/users.list?token=xoxp-2304282579-2318358302-2391209578-696a68',
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	};
-
-	var req = https.request(options, function(res) {
-		res.setEncoding('utf8');
-		var response;
-		res.on('data', function(chunk) {
-			response += chunk;
-		});
-
-		res.on('end', function() {
-			var obj = JSON.parse(response);
-			return obj;
-		});
-	});
-
-	req.end();
 }

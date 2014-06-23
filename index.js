@@ -46,7 +46,7 @@ function handleMessage(message) {
 		}
 		else if (activeUsers.indexOf(mjson.ID) == -1 && activeUsers.length < config.activeUserLimit) {
 			console.log("new user");
-			if (activeUsers[0] == undefined) {
+			if (activeUsers[0] == "undefined") {
 				activeUsers[0] = mjson.ID;
 			}
 			else {
