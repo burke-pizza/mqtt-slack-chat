@@ -26,8 +26,15 @@ function handleMessage(message) {
 			var index = activeUsers.indexOf(mjson.ID);
 			activeUsers.splice(index, 1);
 			if (queuedUsers.length > 0) {
+				slack.postToSlack({
+					ID: mjson.ID,
+					text: 'USER DISCONNECTED'
+				});
 				moveIntoActive();
 			}
+		}
+		else if (queuedUsers.indexOf(mjson.ID) > -1) {
+			queuedUsers.splice(queuedUsers.indexOf(mjson.ID), 1);
 		}
 	}
 	//check message ID against active users list
@@ -52,6 +59,7 @@ function handleMessage(message) {
 			else {
 				activeUsers.push(mjson.ID);
 			}
+			slack.postToSlack({ID:mjson.ID,text:'NEW USER, STAND BY FOR COMMENT'});
 			slack.postToSlack(mjson);
 		}
 		else if (activeUsers.indexOf(mjson.ID) == -1 && activeUsers.length >= config.activeUserLimit) {
@@ -73,6 +81,7 @@ function placeInQueue(ID) {
 function moveIntoActive() {
 	var ID = queuedUsers[0];
 	activeUsers.push(queuedUsers.shift());
+	slack.postToSlack({ID:ID,text:'NEW USER, STAND BY FOR COMMENT'});
 	var message = '{"sender":"2lemetry", "text":"All set! How can we help?"}'
 	client.publish(config.mqtt.topic+'/'+ID, message);
 }

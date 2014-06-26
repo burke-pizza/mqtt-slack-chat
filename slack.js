@@ -75,7 +75,7 @@ server.route({
 	method: 'GET',
 	handler: function(req, reply) {
 		console.log("/ GET request received");
-		reply('Are you lost?');
+		reply('Are you lost?').code(200);
 	}
 });
 
