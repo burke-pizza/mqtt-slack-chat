@@ -21,26 +21,33 @@ function handleMessage(message) {
 	console.log(message);
 	var mjson = JSON.parse(message);
 	//catching disconnect messages
-	if (typeof mjson.error != 'undefined') {
-		if (activeUsers.indexOf(mjson.ID) > -1) {
-			var index = activeUsers.indexOf(mjson.ID);
-			activeUsers.splice(index, 1);
-			if (queuedUsers.length > 0) {
-				slack.postToSlack({
-					ID: mjson.ID,
-					text: 'USER DISCONNECTED'
-				});
-				moveIntoActive();
+	if (typeof mjson.status != 'undefined') {
+		if (mjson.status == 'disconnect') {
+			if (activeUsers.indexOf(mjson.ID) > -1) {
+				var index = activeUsers.indexOf(mjson.ID);
+				activeUsers.splice(index, 1);
+
+				if (queuedUsers.length > 0) {
+					moveIntoActive();
+				}
 			}
+			else if (queuedUsers.indexOf(mjson.ID) > -1) {
+				queuedUsers.splice(queuedUsers.indexOf(mjson.ID), 1);
+			}
+			slack.postToSlack({
+				ID: mjson.ID,
+				text: 'USER DISCONNECTED'
+			});
 		}
-		else if (queuedUsers.indexOf(mjson.ID) > -1) {
-			queuedUsers.splice(queuedUsers.indexOf(mjson.ID), 1);
+		else if (mjson.status == 'queuecheck') {
+			if (activeUsers.length >= config.activeUserLimit) {
+				placeInQueue(mjson.ID);
+			}
+			
 		}
 	}
 	//check message ID against active users list
 	if (mjson.sender == 'user') {
-		console.log(activeUsers);
-		console.log(activeUsers.length + ' ' + config.queueLength);
 		if (queuedUsers.indexOf(mjson.ID) > -1) {
 			var position = queuedUsers.indexOf(ID) + 1;
 			var message = '{"sender":"2lemetry","text":"We\'ll get back to you as soon as possible!'+

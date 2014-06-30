@@ -41,7 +41,6 @@ module.exports = {
 };
 
 var server = new hapi.Server('0.0.0.0', config.slack.port, {
-	location: config.slack.domain,
 	cors: true
 });
 
@@ -119,9 +118,9 @@ function createZendeskTicket(payload) {
 		}
 	});
 
-	var auth = new Buffer('support_agents@2lemetry.com/token:JE0q7VaxAXFyPBHJ70Pa5g1GafGRaHXPZlHvzTld').toString('base64');
+	var auth = new Buffer(config.zendesk.email+'/token:'+config.zendesk.token).toString('base64');
 	var options = {
-		host: '2lemetry.zendesk.com',
+		host: config.zendesk.host,
 		port: 443,
 		path: '/api/v2/tickets.json',
 		method: 'POST',
