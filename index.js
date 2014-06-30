@@ -43,7 +43,16 @@ function handleMessage(message) {
 			if (activeUsers.length >= config.activeUserLimit) {
 				placeInQueue(mjson.ID);
 			}
-			
+			else {
+				if (activeUsers[0] == "undefined") {
+					activeUsers[0] = mjson.ID;
+				}
+				else {
+					activeUsers.push(mjson.ID);
+				}
+				slack.postToSlack({ID:mjson.ID,text:'NEW USER, STAND BY FOR COMMENT'});
+				slack.postToSlack(mjson);
+			}
 		}
 	}
 	//check message ID against active users list
@@ -57,21 +66,6 @@ function handleMessage(message) {
 		else if (activeUsers.indexOf(mjson.ID) > -1) {
 			console.log("active user");
 			slack.postToSlack(mjson);
-		}
-		else if (activeUsers.indexOf(mjson.ID) == -1 && activeUsers.length < config.activeUserLimit) {
-			console.log("new user");
-			if (activeUsers[0] == "undefined") {
-				activeUsers[0] = mjson.ID;
-			}
-			else {
-				activeUsers.push(mjson.ID);
-			}
-			slack.postToSlack({ID:mjson.ID,text:'NEW USER, STAND BY FOR COMMENT'});
-			slack.postToSlack(mjson);
-		}
-		else if (activeUsers.indexOf(mjson.ID) == -1 && activeUsers.length >= config.activeUserLimit) {
-			console.log("queue user");
-			placeInQueue(mjson.ID);
 		}
 	}
 }

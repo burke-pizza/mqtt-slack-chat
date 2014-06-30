@@ -104,40 +104,40 @@ function handleSlackMessage(payload) {
 }
 
 function createZendeskTicket(payload) {
-	var info = payload;
-	var body = JSON.stringify({
-		ticket: {
-			requester: {
-				name: info.name,
-				email: info.email
-			},
-			subject: info.subject,
-			comment: {
-				body: info.message
-			}
-		}
-	});
+	// var info = payload;
+	// var body = JSON.stringify({
+	// 	ticket: {
+	// 		requester: {
+	// 			name: info.name,
+	// 			email: info.email
+	// 		},
+	// 		subject: info.subject,
+	// 		comment: {
+	// 			body: info.message
+	// 		}
+	// 	}
+	// });
 
-	var auth = new Buffer(config.zendesk.email+'/token:'+config.zendesk.token).toString('base64');
-	var options = {
-		host: config.zendesk.host,
-		port: 443,
-		path: '/api/v2/tickets.json',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Basic ' + auth
-		}
-	};
+	// var auth = new Buffer(config.zendesk.email+'/token:'+config.zendesk.token).toString('base64');
+	// var options = {
+	// 	host: config.zendesk.host,
+	// 	port: 443,
+	// 	path: '/api/v2/tickets.json',
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 		'Authorization': 'Basic ' + auth
+	// 	}
+	// };
 
-	var req = https.request(options, function(res) {
-		res.setEncoding('utf8');
-		res.on('data', function(data) {
-			console.log(data);
-		});
-	});
+	// var req = https.request(options, function(res) {
+	// 	res.setEncoding('utf8');
+	// 	res.on('data', function(data) {
+	// 		console.log(data);
+	// 	});
+	// });
 
-	req.write(body);
-	req.end();
+	// req.write(body);
+	// req.end();
 
 }
