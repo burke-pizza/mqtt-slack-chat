@@ -40,7 +40,11 @@ function handleMessage(message) {
 			});
 		}
 		else if (mjson.status == 'queuecheck') {
-			if (activeUsers.length >= config.activeUserLimit) {
+			if (activeUsers.indexOf(mjson.ID) > -1 || queuedUsers.indexOf(mjson.ID) > -1) {
+				console.log("user " + mjson.ID + " has returned");
+				return;
+			}
+			else if (activeUsers.length >= config.activeUserLimit) {
 				placeInQueue(mjson.ID);
 			}
 			else {
@@ -51,17 +55,16 @@ function handleMessage(message) {
 					activeUsers.push(mjson.ID);
 				}
 				slack.postToSlack({ID:mjson.ID,text:'NEW USER, STAND BY FOR COMMENT'});
-				slack.postToSlack(mjson);
 			}
 		}
 	}
 	//check message ID against active users list
 	if (mjson.sender == 'user') {
 		if (queuedUsers.indexOf(mjson.ID) > -1) {
-			var position = queuedUsers.indexOf(ID) + 1;
+			var position = queuedUsers.indexOf(mjson.ID) + 1;
 			var message = '{"sender":"2lemetry","text":"We\'ll get back to you as soon as possible!'+
 			'Your position in line: '+position+'"}'
-			client.publish(config.mqtt.topic+'/'+ID, message);
+			client.publish(config.mqtt.topic+'/'+mjson.ID, message);
 		}
 		else if (activeUsers.indexOf(mjson.ID) > -1) {
 			console.log("active user");
